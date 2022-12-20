@@ -3,7 +3,7 @@ const express = require("express");
 const notesRouter = express.Router();
 
 //Pulls router info
-const writeTo = require("../db/....");
+const writeTo = require("../db/read-db");
 
 // Get request for notes api
 notesRouter.get("/api/notes", function (req, res) {
