@@ -20,27 +20,21 @@ class Writeto {
     write(input){
         return writeFile("db/db.json", JSON.stringify(input))
     }
-    readAll(){
-        return this.read().then(notes => [...JSON.parse(notes)])
+    async readAll(){
+        const notes = await this.read();
+        return [...JSON.parse(notes)];
         
     }
-    addNew(input) {
+    async addNew(input) {
         let newInput = {
             id: uuidv4(),
             title: input.title,
             text: input.text
         }
-        return this.readAll()
-        .then(notes=> [...notes, newInput])
-        .then(notes=> this.write(notes))
-        .then(()=> this.read())
-    }
-    deleteNote(id) {
-        return this.readAll()
-        .then(notes => notes.filter(note=> note.id !== id))
-        .then(notes => this.write(notes))
-        .then(() => this.read())
+        const notes = await this.readAll();
+        const notes_1 = [...notes, newInput];
+        await this.write(notes_1);
+        return await this.read();
     }
 }
-
 module.exports = new Writeto();
