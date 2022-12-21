@@ -1,16 +1,13 @@
 //Required Import
 const express = require("express");
-const fs = require('fs')
 
 //Create an express app
 const app = express();
-const path = require("path");
 
 //Default Port
 //const port = 3001
 
-const port = process.env.PORT || 3001;
-
+const port = process.env.PORT || 3001
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());

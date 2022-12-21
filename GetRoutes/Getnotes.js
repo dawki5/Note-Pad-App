@@ -3,21 +3,20 @@ const { v4: uuidv4 } = require('uuid');
 const fs = require('fs');
 const path = require('path');
 
-module.exports = (app) => {
+module.exports = (data) => {
   
-app.get('/api/notes', (req, res) => { res.sendFile(path.join(__dirname, '../db/db.json'));
+data.get('/api/notes', (req, res) => { res.sendFile(path.join(__dirname, '../db/db.json'));
 });
 
 //Pulls notes from db.json and saves it 
-app.post('/api/notes', (req, res) => {
+data.post('/api/notes', (req, res) => {
 let database = fs.readFileSync('db/db.json');
     database = JSON.parse(database);
-    res.json(database);
-
+    
     let input = {
-      id: uuidv4(),
       title: req.body.title,
       text: req.body.text,
+      id: uuidv4(),
     };
 
     database.push(input);
@@ -27,7 +26,7 @@ let database = fs.readFileSync('db/db.json');
 });
 
 //Delete Function
-app.delete('api/notes/:id', (req, res) => {
+data.delete('api/notes/:id', (req, res) => {
   let database = JSON.parse(fs.readFileSync('db/db.json'))
   let removeN = database.filter(item => item.id !== req.params.id);
   fs.writeFileSync('db/db.json', JSON.stringify(removeN));
