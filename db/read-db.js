@@ -5,7 +5,7 @@ const fs = require('fs');
 const util = require('util');
 
 //npm used to print formatted strings or supplies functions helpful for debugging
-const uuid = require('uuid');
+const { v4: uuidv4 } = require('uuid');
 
 //Used to convert the call back to a promise based method
 const readfile = util.promisify(fs.readFile);
@@ -26,7 +26,7 @@ class Writeto {
     }
     addNew(input) {
         let newInput = {
-            id: uuid(),
+            id: uuidv4(),
             title: input.title,
             text: input.text
         }
@@ -34,6 +34,12 @@ class Writeto {
         .then(notes=> [...notes, newInput])
         .then(notes=> this.write(notes))
         .then(()=> this.read())
+    }
+    deleteNote(id) {
+        return this.readAll()
+        .then(notes => notes.filter(note=> note.id !== id))
+        .then(notes => this.write(notes))
+        .then(() => this.read())
     }
 }
 

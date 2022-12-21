@@ -9,7 +9,7 @@ const writeTo = require("../db/read-db");
 notesRouter.get("/api/notes", function (req, res) {
   
   writeTo
-    .readAll(req.body)
+    .readAll()
     .then((notes) => res.json(notes))
     .catch((err) => console.log(err));
 });
@@ -18,6 +18,14 @@ notesRouter.get("/api/notes", function (req, res) {
 notesRouter.post("/api/notes", function (req, res) {
   writeTo
     .addNew(req.body)
+    .then((notes) => res.json(notes))
+    .catch((err) => console.log(err));
+});
+
+//Delete Function (bonus)
+notesRouter.delete("/api/notes/:id", function (req, res) {
+  writeTo
+    .deleteNote(req.params.id)
     .then((notes) => res.json(notes))
     .catch((err) => console.log(err));
 });
