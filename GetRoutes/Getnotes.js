@@ -1,66 +1,48 @@
-//NPM for unique id between notes
-const { v4: uuidv4 } = require('uuid');
-const fs = require('fs');
+// Imports
 const path = require('path');
+const fs = require('fs')
 
-module.exports = (data) => {
-  
-data.get('/api/notes', (req, res) => { res.sendFile(path.join(__dirname, '../db/db.json'));
-});
+// npm package that allows for unique ids to be created
+var { v4: uuidv4 } = require('uuid');
 
-//Pulls notes from db.json and saves it 
-data.post('/api/notes', (req, res) => {
-let database = fs.readFileSync('db/db.json');
-    database = JSON.parse(database);
-    
-    let input = {
+
+// Creates router for Getnotes.js file
+module.exports = (notes) => {
+
+  //Reads the db.json file and returns saved data as json
+  notes.get('/api/notes', (req, res) => {
+    res.sendFile(path.join(__dirname, '../db/db.json'));
+  });
+
+  // Receives a new note to save onto the request body
+  notes.post('/api/notes', (req, res) => {
+    let notesData = fs.readFileSync('db/db.json');
+    notesData = JSON.parse(notesData);
+    res.json(notesData);
+    // Notes text input area
+    let noteInput = {
       title: req.body.title,
       text: req.body.text,
+      // uuid npm creates a unique id for each note
       id: uuidv4(),
     };
+    // Recevices info that was input in body.title or text and directs it to db.json file
+    notesData.push(noteInput);
+    fs.writeFileSync('db/db.json', JSON.stringify(notesData));
+    res.json(notesData);
 
-    database.push(input);
-    fs.writeFileSync('db/db.json', JSON.stringify(database));
-    res.json(database);
+  });
 
-});
 
-//Delete Function
-data.delete('api/notes/:id', (req, res) => {
-  let database = JSON.parse(fs.readFileSync('db/db.json'))
-  let removeN = database.filter(item => item.id !== req.params.id);
-  fs.writeFileSync('db/db.json', JSON.stringify(removeN));
-  res.json(removeN);
-});
-
+  // Delete function to receive a query parameter containing the id of a note to delete.
+  notes.delete('/api/notes/:id', (req, res) => {
+    // Retrieves stored data from db.json
+    let notesData = JSON.parse(fs.readFileSync('db/db.json'))
+    // Removes notes with an id
+    let eraseNote = notesData.filter(item => item.id !== req.params.id);
+    // Rewrites code to db.json
+    fs.writeFileSync('db/db.json', JSON.stringify(eraseNote));
+    res.json(eraseNote);
+    
+  })
 };
-
-
-
-//                                                Future Router Integration
-
-//Required file imports
-//const express = require("express");
-//const notesRouter = express.Router();
-
-//Pulls router info
-//const writeTo = require("../db/read-db");
-
-// Get request for notes api
-//notesRouter.get("/api/notes", function (_req, res) {
-  
-//  writeTo
-//    .readAll()
-//    .then((notes) => res.json(notes))
-//   .catch((err) => console.log(err));
-//});
-
-// Post request for notes api
-//notesRouter.post("/api/notes", function (req, res) {
-// writeTo
-//    .addNew(req.body)
-//    .then((notes) => res.json(notes))
-//    .catch((err) => console.log(err));
-//});
-
-//module.exports = notesRouter;
