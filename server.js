@@ -5,14 +5,15 @@ const app = express();
 // Default Port
 const PORT = process.env.PORT || 3001;
 
-app.use(express.urlencoded({ extended: true }));
+
 app.use(express.static('public'));
+app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
 
 //Retrives the routers from both files
-require('./GetRoutes/Getnotes.js')(app);
-require('./GetRoutes/Gethtml.js')(app);
+require('./getroutes/getnotes.js')(app);
+require('./getroutes/gethtml.js')(app);
 
 
 //Runs the server.js file on the default port
