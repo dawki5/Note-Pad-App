@@ -24,6 +24,17 @@ npm i
 
 ## Screenshots
 
+
+![Note-Pad-App ss1](https://user-images.githubusercontent.com/109554960/209059176-42a5d1cc-24ea-48e4-8140-32656826a8fb.png)
+
+![Note-Pad-App ss2](https://user-images.githubusercontent.com/109554960/209059182-47ef5ea3-8c57-4f1d-bf91-85575f3e79a2.png)
+
+
+
+## Heroku Linked site
+
+https://note-pad.herokuapp.com/
+
 ## Usage
 Once all the packages have been installed, open terminal and run the following code in command line :
 
