@@ -17,6 +17,6 @@ require('./getroutes/gethtml.js')(app);
 
 
 //Runs the server.js file on the default port
-app.listen(process.env.PORT, () => {
+app.listen(PORT, () => {
   console.log(`Server available at localhost${PORT}`);
 });
